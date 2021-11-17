@@ -46,7 +46,7 @@ Mathematically:
 <p align="center">
     <img src="https://render.githubusercontent.com/render/math?math=PE(pos,{2*i} *plus* {1})=\cos(\frac{pos}{10000^{2i/512}})" style="width:35%">
 </p>
-where  <img src="https://render.githubusercontent.com/render/math?math=512 = d_{model}">, which is the dimensionality of the embedding vectors. Below is a @D visualization of a positional encoding.
+where  <img src="https://render.githubusercontent.com/render/math?math=512 = d_{model}" style="display: inline">, which is the dimensionality of the embedding vectors. Below is a @D visualization of a positional encoding.
 
 
 <p align="center">
