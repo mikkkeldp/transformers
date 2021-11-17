@@ -9,9 +9,9 @@ Transformers was introduced in [Attention is all you need](https://arxiv.org/abs
 Before the input is fed to the model, 3 processing  steps are performed. 
 
 ### 1. Sets and tokenization
-<div style="text-align:center">
+<p align="center">
     <img src="https://theaisummer.com/static/c9a851690a62f1faaf054430ca35ab20/c7dcc/tokenization.png" style="width:50%">
-</div>
+</p>
 The input is first tokenized (as shown above). So, instead of a sequence of elements, we have a set. Sets are a collection of distinct elements, where the arrangement of the elements in the set does not matter. We denote the input set as 
 <img src="https://render.githubusercontent.com/render/math?math=X = x_1,x_2. \ldots, x_N"> where 
 <img src="https://render.githubusercontent.com/render/math?math=x \in R^{N \times d_{in}}">. The elements of the sequence <img src="https://render.githubusercontent.com/render/math?math=x_i"> are referred to as tokens.
@@ -22,9 +22,9 @@ After tokenization, we project words in a distributed geometrical space, or simp
 In general, an embedding is a representation of a symbol (word, character, sentence) in a distributed low-dimensional space of continuous-valued vectors. Ideally, an embedding captures the semantics of the input by placing semantically similar inputs close together in the embedding space.
 
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://media2.giphy.com/media/p5MMLRVr2Om34WU9pg/giphy.gif?cid=790b7611128d6740994480011c0c936275431bd1844f4e51&rid=giphy.gif&ct=g" style="width:50%">
-</div>
+</p>
 
 We will now provide some notion of order in the set through positional encodings.
 
@@ -33,25 +33,25 @@ When you convert a sequence into a set (tokenization), you lose the notion of or
 
 We try to provide some context to each word (token). o if the same word appears in a different position, the actual representation will be slightly different, depending on where it appears in the input sentence.
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://theaisummer.com/static/257848131da90edbf099aa8c4bf392c4/27524/input-processing-tokenization-embedding.png" style="width:40%">
-</div>
+</p>
 
 In the transformer paper, the authors came up with the sinusoidal function for the positional encoding. The sine function tells the model to pay attention to a particular wavelength <img src="https://render.githubusercontent.com/render/math?math=\lambda">. Given a signal <img src="https://render.githubusercontent.com/render/math?math=y(x) = \sin (k x)y(x)=sin(kx)"> the wavelength will be <img src="https://render.githubusercontent.com/render/math?math=k = \frac{2 \pi}{\lambda}">. In our case the λ will be dependent on the position in the sentence. i is used to distinguish between odd and even positions.
 
 Mathematically:
-<div style="text-align:center">
+<p align="center">
     <img src="https://render.githubusercontent.com/render/math?math=PE(pos,2i)=\sin(\frac{pos}{10000^{2i/512}})" style="width:30%">
-</div>
-<div style="text-align:center">
+</p>
+<p align="center">
     <img src="https://render.githubusercontent.com/render/math?math=PE(pos,{2*i} *plus* {1})=\cos(\frac{pos}{10000^{2i/512}})" style="width:35%">
-</div>
+</p>
 where  <img src="https://render.githubusercontent.com/render/math?math=512 = d_{model}">, which is the dimensionality of the embedding vectors. Below is a @D visualization of a positional encoding.
 
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://theaisummer.com/static/a662e9c10a5401d1bd1ccdce52dfdbd6/c1b63/positional-encoding.png" style="width:60%">
-</div>
+</p>
 
 This is in contrast to recurrent models, where we have an order but we are struggling to pay attention to tokens that are not close enough.
 
@@ -62,9 +62,9 @@ Key-value-query concepts come from information retrieval systems.This concept is
 
 When you search (**query**) for a particular video, the search engine will map your query against a set of video titles, descriptions, etc. (**keys**) associated with stored videos. The algorithm then returns the best matched videos (**values**). This is the foundation of content/**feature-based lookup**.
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://theaisummer.com/static/2e000851b686eb35c6c3c06522437715/26a94/attention-as-database-query.png" style="width:60%">
-</div>
+</p>
 
 In the single video retrieval example, the attention is the choice of the video with a maximum relevance score. But we can relax this idea. To this end, the main difference between attention and retrieval systems is that we introduce a more abstract and smooth notion of ‘retrieving’ an object. By defining a degree of similarity (weight) between our representations (videos for youtube) we can weight our query. Instead of choosing where to look according to the position within a sequence, we now attend to the content that we wanna look at. 
 
@@ -73,13 +73,13 @@ We use the **keys** to define the attention weights to look at the data and the 
 
 ### Vector similarity in high dimensional spaces
 In geometry, the **inner vector product** is interpreted as a vector projection. One way to define vector similarity is by computing the normalized inner product. In low dimensional space, like the 2D example below, this would correspond to the cosine value.
-<div style="text-align:center">
+<p align="center">
     <img src="https://theaisummer.com/static/ebfe1b1dbab018e608a77f85457e52db/16caa/vector-similarity.png" style="width:24%">
-</div>
+</p>
 Mathematically:
-<div style="text-align:center">
+<p align="center">
     <img src="https://render.githubusercontent.com/render/math?math=sim(a,b)=\cos(a,b)=\frac{a b}{|a||b|}=\frac{1}{s}*a b" style="width:35%">
-</div>
+</p>
 We can associate the similarity between vectors that represent anything (i.e. animals) by calculating the scaled dot product, namely the cosine of the angle.
 
 In transformers, this is the most basic operation and is handled by the self-attention layer as we’ll see.
@@ -92,22 +92,22 @@ Self-attention enables us to find correlations between different words of the in
 
 Let’s take the input sequence “Hello I love you” for example. A trained self-attention layer will associate the word “love” with the words ‘I” and “you” with a higher weight than the word “Hello”. From linguistics, we know that these words share a subject-verb-object relationship and that’s an intuitive way to understand what self-attention will capture.
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://theaisummer.com/static/4022cf02281d234e0e85fa44ad08b4e2/9f933/self-attention-probability-score-matrix.png" style="width:30%">
-</div>
+</p>
 
 In practice, the Transformer uses 3 different representations: the Queries, Keys and Values of the embedding matrix. This can easily be done by multiplying our input <img src="https://render.githubusercontent.com/render/math?math=X \in R^{N \times d_k}"> with 3 different weight matrices <img src="https://render.githubusercontent.com/render/math?math=W_Q, W_K  \text{ and } W_V \in R^{d_k \times d_{model}}">. This is just a matrix multiplication in the original word embeddings. The resulted dimension will be smaller: <img src="https://render.githubusercontent.com/render/math?math=d_k > d_{model}">.
 
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://theaisummer.com/static/56773616d30b9dcb31aa792f2d701276/c1b63/key-query-value.png" style="width:70%">
-</div>
+</p>
 
 Having the Query, Value and Key matrices, we can now apply the self-attention layer as:
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://render.githubusercontent.com/render/math?math=\text{Attention}(Q,K,V)=\softmax(\frac{QK^T}{\sqrt{d_k}})V" style="width:35%">
-</div>
+</p>
 
 In the original paper, the scaled dot-product attention was chosen as a scoring function to represent the correlation between two words (the attention weight). Note that we can also utilize another similarity function. The <img src="https://render.githubusercontent.com/render/math?math=\sqrt{d_{k}}"> is here simply as a scaling factor to make sure that the vectors won’t explode.
 
@@ -128,43 +128,43 @@ Skip connections give a transformer a tiny ability to allow the representations 
 ## Layer normalization
 In Layer Normalization (LN), the mean and variance are computed across channels and spatial dims. In language, each word is a vector. Since we are dealing with vectors we only have one spatial dimension.
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://render.githubusercontent.com/render/math?math=\mu_{n}=\frac{1}{K} \sum_{k=1}^{K} x_{nk}" style="width:18%">
-</div>
+</p>
 <br>
-<div style="text-align:center">
+<p align="center">
     <img src="https://render.githubusercontent.com/render/math?math=\sigma_{n}^{2}=\frac{1}{K} \sum_{k=1}^{K}\left(x_{nk}-\mu_{n}\right)^{2}" style="width:25%">
-</div>
+</p>
 <br>
-<div style="text-align:center">
+<p align="center">
     <img src="https://render.githubusercontent.com/render/math?math=\hat{x}_{nk}= \frac{x_{nk}-\mu_{n}}{\sqrt{\sigma_{n}^{2} *plus* \epsilon}}, \hat{x}_{nk} \in R" style="width:25%">
-</div>
+</p>
 
 <br>
-<div style="text-align:center">
+<p align="center">
     <img src="https://render.githubusercontent.com/render/math?math=\mathrm{LN}_{\gamma, \beta}\left(x_{n}\right) =\gamma \hat{x}_{n} *plus*\beta ,x_{n} \in R^{K}" style="width:30%">
-</div>
+</p>
 <br>
 In a 4D tensor with merged spatial dimensions, we can visualize this with the following figure:
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://theaisummer.com/static/3ed7199184645f3e632d17ab6441244f/63a68/layer-norm.png" style="width:40%">
-</div>
+</p>
 
 After applying a [normalization](https://theaisummer.com/normalization/) layer and forming a residual skip connection we are here:
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://theaisummer.com/static/f6068bcb3559a017af003c2bde071bcf/e3b18/encoders-attention-with-normalizarion.png" style="width:30%">
-</div>
+</p>
 
 Even though this could be a stand-alone building block, the creators of the transformer add another linear layer on top and renormalize it along with another skip connection.
 
 ## Linear layer
 linear layer (PyTorch), dense layer (Keras), feed-forward layer (old ML books), fully connected layer. We will simply say linear layer which is:
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://render.githubusercontent.com/render/math?math=y = xW^T+b" style="width:10%">
-</div>
+</p>
 
 Where **W** is a matrix and **x,y,b** are vectors. They add two linear layers with dropout and non-linearities in between.
 
@@ -185,9 +185,9 @@ The main intuition is that they project the output of self-attention in a higher
 
 This (almost) concludes encoder part of the transformer with N such building blocks, as depicted below:
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://theaisummer.com/static/dc71435f329458ee5cc09cb2ea09ebf8/7bc0b/encoder-without-multi-head.png" style="width:30%">
-</div>
+</p>
 
 The final aspect to explore is multi-head attention
 
@@ -203,23 +203,23 @@ The heads are then concatenated and transformed using a square weight matrix <im
 
 Putting this together we get:
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://render.githubusercontent.com/render/math?math=\text{MultiHead}(Q,K,V) = \text{concat}(head_1, head_2, \ldots, head_h)W^O" style="width:47%">
-</div>
+</p>
 where
-<div style="text-align:center">
+<p align="center">
     <img src="https://render.githubusercontent.com/render/math?math=head_i = \text{Attention}(QW_i^Q,KW_i^K,VW_i^V)" style="width:30%">
-</div>
+</p>
 where again
-<div style="text-align:center">
+<p align="center">
     <img src="https://render.githubusercontent.com/render/math?math=QW_i^Q,KW_i^K,VW_i^V \in R^{d_{model}\times d_k}" style="width:25%">
-</div>
+</p>
 
 Since heads are independent from each other, we can perform the self-attention computation in parallel on different workers:
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://theaisummer.com/static/9dc2e417714211a5166ece483b862d75/442cb/parallel-multi-head-attention.png" style="width:60%">
-</div>
+</p>
 
 The intuition behind multihead attention is that it allows us to attend to different parts of the sequence differently each time. This practically means that:
 - The model can better capture **positional information** because each head will attend to different segments of the input. The combination of them will give us a more robust representation.
@@ -230,10 +230,10 @@ The intuition behind multihead attention is that it allows us to attend to diffe
 
 We will depict Multi-head self-attention in our diagrams like this:
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://theaisummer.com/static/bba48bd14e38ede88ac1cacd8a638d6d/a4078/multi-head-attention.png
 " style="width:30%">
-</div>
+</p>
 
 Helpful resource on multihead attention: [Pytorch implementation using the einsum notation.](https://theaisummer.com/einsum-attention/)
 
@@ -258,10 +258,10 @@ Each block consists of the following layers in the same order:
 
 Note that the above block can be replicated several times to form the Encoder. In the original paper, the encoder composed of 6 identical blocks.
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://theaisummer.com/static/18072c01858310b080b3b6d9b4950175/e45a9/encoder.png
 " style="width:30%">
-</div>
+</p>
 
 ## The decoder
 The decoder consists of all the aforementioned components plus two novel ones. As before:
@@ -286,10 +286,10 @@ Each decoder block includes:
 
 The decoder block appears again 6 times. The final output is transformed through a final linear layer and the output probabilities are calculated with the standard softmax function.
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://theaisummer.com/static/7d6c2aa7af90f14cf44d533cbf88726e/8ff13/decoder.png
 " style="width:30%">
-</div>
+</p>
 
 The output probabilities predict the next token in the output sentence. How? In essence, we assign a probability to each word in the French language and we simply keep the one with the highest score.
 
@@ -307,9 +307,9 @@ As you can tell, the difference here is that we don’t know the whole sentence 
 
 Mathematically we have:
 
-<div style="text-align:center">
+<p align="center">
     <img src="https://render.githubusercontent.com/render/math?math=\text{MaskedAttention}(Q,K,V) = \softmax(\frac{QK^T*plus*M}{\sqrt{d_k}})V" style="width:45%">
-</div>
+</p>
 
 where the matrix M (mask) consists of zeros and -inf. Zeros will become ones with the exponential while infinities become zeros. 
 
