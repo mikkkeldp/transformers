@@ -13,8 +13,7 @@ Before the input is fed to the model, 3 processing  steps are performed.
     <img src="https://theaisummer.com/static/c9a851690a62f1faaf054430ca35ab20/c7dcc/tokenization.png" style="width:50%">
 </p>
 The input is first tokenized (as shown above). So, instead of a sequence of elements, we have a set. Sets are a collection of distinct elements, where the arrangement of the elements in the set does not matter. We denote the input set as 
-<img src="https://render.githubusercontent.com/render/math?math=X = x_1,x_2. \ldots, x_N" style="vertical-align:middle; display:inline;"> where 
-<img src="https://render.githubusercontent.com/render/math?math=x \in R^{N \times d_{in}}">. The elements of the sequence <img src="https://render.githubusercontent.com/render/math?math=x_i"> are referred to as tokens.
+<img src="https://render.githubusercontent.com/render/math?math=X = x_1,x_2. \ldots, x_N"> where <img src="https://render.githubusercontent.com/render/math?math=x \in R^{N \times d_{in}}">. The elements of the sequence <img src="https://render.githubusercontent.com/render/math?math=x_i"> are referred to as tokens.
 After tokenization, we project words in a distributed geometrical space, or simply build word embeddings.
 
 
