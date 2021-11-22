@@ -361,7 +361,7 @@ For each head of multi-head attention, the following happens:
 - This is used as an updated representation of the word. But, this is done for every word (in parallel)
 - This is done in parallel, by stacking the Q, K and V, vectors in matrices
 <p align="center">
-    <img src="https://render.githubusercontent.com/render/math?math=\text{Attention}(Q,K,V) = \softmax(\frac{QK^T}{\sqrt{d_k}})V" style="width:45%">
+    <img src="https://render.githubusercontent.com/render/math?math=\text{Attention}(Q,K,V) = \softmax(\frac{QK^T}{\sqrt{d_k}})V" style="width:40%">
 </p>
 - The output is a matrix, where each row is an updated representation for the word in the corresponding row position. 
 - Attention is interpretable since we can observe the attention weights. We can determine the learned semantic structure of a sentence (in the case of text input).
@@ -374,16 +374,33 @@ For each head of multi-head attention, the following happens:
 </p>
 where
 <p align="center">
-    <img src="https://render.githubusercontent.com/render/math?math=\text{head}_i = \text{Attention}(QW_i^Q,KW_i^K, VW_i^V)" style="width:45%">
+    <img src="https://render.githubusercontent.com/render/math?math=\text{head}_i = \text{Attention}(QW_i^Q,KW_i^K, VW_i^V)" style="width:35%">
 </p>
 - Q, K and V are identical (stacked word representations at a given layer). The h output matrices are concatenated and then multiplied by another weight matrix W^O to linearly project the learned representations back to the original embedding dimensionality.
 - In the paper d_k = d_v = D/h and W^O = D x D
-
+- Note that multihead attention does not process the input sequentially. So how does it take order into account?
 
 
 ### Positional Encoding in more detail:
+- Similar to how each word token is mapped to a fixed sized vector embedding. Position tokens are assigned for this reason
+- One way of doing this is by learnable lookup table for position tokens, the authors however proposed a handcrafted fixed encoding scheme
 
+<p align="center">
+    <img src="https://render.githubusercontent.com/render/math?math=PE(pos,2i)=\sin(\frac{pos}{10000^{2i/D}})" style="width:30%">
+</p>
+<p align="center">
+    <img src="https://render.githubusercontent.com/render/math?math=PE(pos,{2*i} *plus* {1})=\cos(\frac{pos}{10000^{2i/D}})" style="width:35%">
+</p>
 
+where D = 512. 
+- Each dimension follows a sinusoidal curve. Increasing in frequency as the dimension index i increases. Even dimension follows a sine curve and off an cosine curve. 
+
+<p align="center">
+    <img src="https://theaisummer.com/static/a662e9c10a5401d1bd1ccdce52dfdbd6/c1b63/positional-encoding.png" style="width:80%">
+</p>
+y-axis is pos and x-axis is i. As we go down the y-axis we alternative between light and dark (high and low numerical values), but at slower rates for greater dimensions. the authors make the case that this handcrafted encodings not only represent not only encode global position (since each vector is unique), but also relative positioning. Take the position at position t, the positional encoding at position t + k for some fixed offset k, can be computed as a linear function of the encoding at position t. The authors also make the case that these fixed encodings can potentionally let the model extrapolate to longer sequences during deployment than those encoutered during training.  Tha authors also state that the fixed and learned encoding routes led to the same performance. 
+
+Positional encodings have the same dim as input embeddings and are summed before feeding to the encoder.
 
 
 ## Resources
