@@ -343,6 +343,47 @@ For example, each word in the translated sequence (Bonjour, je t’aime) will at
 On the other hand, the weights of a feedforward (linear) layer change very slowly with stochastic gradient descent. In convolutions, we further constrict the (slow) weight to have a fixed size, namely the kernel size.
 
 
+### Attention in more detail:
+Query vector is compared to a set of Key vectors and see how similar/compatible they are. Each Key vector comes paired with a value vector. They greater the compatibility of a given key with a query, the greater influence the corresponding value will have on the output of the attention mechanism. All Query, Keys and Values matrices are learned during training. 
+
+For each head of multi-head attention, the following happens:
+- Each word in the input sequence is assigned a embedding. From each embedding, a key , query and value vector is extracted through linear transformations. 
+- Compatibility between Keys and Query matrices are determined through dot-product-attention. A greater dot product implies greater compatibility. We achieve a alpha vector of length the same size as the input sequence. This is a set of unnormalized weights and are normalized through a softmax, but first rescaled by the dimensionality of the query and key vectors d_k. This is done since the performance seems to suffer for larger values of d_k. This is hypothesized to be due to the softmax's gradient vanishing for high magnitude input. Variance of fot product grows with d_k and softmax gradient eventually vanishes. Thus dividing by the standard deviation helps counteract this. 
+
+<p align="center">
+    <img src="https://render.githubusercontent.com/render/math?math=<\alpha_0, \alpha_1, \ldots, \alpha_n> = \softmax(\frac{<\alpha_0, \alpha_1, \ldots, \alpha_n>}{\sqrt{d_k}})" style="width:45%">
+</p>
+
+- Once the attention weights are normalized, we create a linear combination of the value vectors and is the output of the attention mechanism. 
+  <p align="center">
+    <img src="https://render.githubusercontent.com/render/math?math=\alpha_0 \times v_0 *plus* \alpha_1 \times v_1*plus* \ldots *plus*\alpha_n \times v_n " style="width:45%">
+</p>
+- This is used as an updated representation of the word. But, this is done for every word (in parallel)
+- This is done in parallel, by stacking the Q, K and V, vectors in matrices
+<p align="center">
+    <img src="https://render.githubusercontent.com/render/math?math=\text{Attention}(Q,K,V) = \softmax(\frac{QK^T}{\sqrt{d_k}})V" style="width:45%">
+</p>
+- The output is a matrix, where each row is an updated representation for the word in the corresponding row position. 
+- Attention is interpretable since we can observe the attention weights. We can determine the learned semantic structure of a sentence (in the case of text input).
+- This is only for a single attention head. If only one head is used, the linear combination of value vectors leads to a averaging affect that limits the resolution of the learned representation. To alleviate this, authors proposed using multiple attention heads that can learn different representations simultaneously.
+- For h attention heads, we'll have h sets of learned projection matrices W_i^Q,W_i^V,W_i^K of dimension D x d_k for Q and K. D=d_model which is the embedding dimensionality. And D x d_v for V, d_v (value dimensionality is often set to d_k)
+- The multihead attention block computes the original attention block h times
+
+<p align="center">
+    <img src="https://render.githubusercontent.com/render/math?math=\text{MultiHead}(Q,K,V) = Concat(head_1. head_2, \ldots, head_h)W^O" style="width:45%">
+</p>
+where
+<p align="center">
+    <img src="https://render.githubusercontent.com/render/math?math=\text{head}_i = \text{Attention}(QW_i^Q,KW_i^K, VW_i^V)" style="width:45%">
+</p>
+- Q, K and V are identical (stacked word representations at a given layer). The h output matrices are concatenated and then multiplied by another weight matrix W^O to linearly project the learned representations back to the original embedding dimensionality.
+- In the paper d_k = d_v = D/h and W^O = D x D
+
+
+
+### Positional Encoding in more detail:
+
+
 
 
 ## Resources
