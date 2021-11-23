@@ -1,4 +1,4 @@
-## Pytorch implementation of Vision transformer (ViT): [paper](https://arxiv.org/abs/2010.11929).
+## Pytorch implementation of Vision transformer (ViT)
 
 Implementation of the Vision Transformer proposed in ''An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale''. We re-create the model architecture of the model and transfer the pre-trained weights given by the ``timm`` python package. 
 
@@ -19,9 +19,9 @@ python3 pred.py
 
 ### Input Image
 
-<p align="center">
-    <img src="cat.png" style="width:80%">
-</p>
+
+<img src="cat.png" style="width:25%">
+
 
 
 ### Output
