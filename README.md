@@ -231,8 +231,7 @@ The intuition behind multihead attention is that it allows us to attend to diffe
 We will depict Multi-head self-attention in our diagrams like this:
 
 <p align="center">
-    <img src="https://theaisummer.com/static/bba48bd14e38ede88ac1cacd8a638d6d/a4078/multi-head-attention.png
-" style="width:30%">
+    <img src="https://theaisummer.com/static/bba48bd14e38ede88ac1cacd8a638d6d/a4078/multi-head-attention.png" style="width:30%">
 </p>
 
 Helpful resource on multihead attention: [Pytorch implementation using the einsum notation.](https://theaisummer.com/einsum-attention/)
