@@ -1,4 +1,4 @@
-## Pytorch implementation of Vision transformer (ViT)
+## Pytorch implementation of Vision Transformer (ViT)
 
 Implementation of the Vision Transformer proposed in ''An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale''. We re-create the model architecture of the model and transfer the pre-trained weights given by the ``timm`` python package. 
 
@@ -25,6 +25,7 @@ python3 pred.py
 
 
 ### Output
+Top 10 ImageNet class predictions 
 ```console
 Top 10 predictions are: 
 ----------------------------------------------------------
@@ -39,31 +40,6 @@ Top 10 predictions are:
 8: lens_cap, lens_cover                          --- 0.0001
 9: remote_control, remote                        --- 0.0001
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #### References:
