@@ -259,8 +259,7 @@ Each block consists of the following layers in the same order:
 Note that the above block can be replicated several times to form the Encoder. In the original paper, the encoder composed of 6 identical blocks.
 
 <p align="center">
-    <img src="https://theaisummer.com/static/18072c01858310b080b3b6d9b4950175/e45a9/encoder.png
-" style="width:30%">
+    <img src="https://theaisummer.com/static/18072c01858310b080b3b6d9b4950175/e45a9/encoder.png" style="width:30%">
 </p>
 
 ## The decoder
@@ -287,8 +286,7 @@ Each decoder block includes:
 The decoder block appears again 6 times. The final output is transformed through a final linear layer and the output probabilities are calculated with the standard softmax function.
 
 <p align="center">
-    <img src="https://theaisummer.com/static/7d6c2aa7af90f14cf44d533cbf88726e/8ff13/decoder.png
-" style="width:30%">
+    <img src="https://theaisummer.com/static/7d6c2aa7af90f14cf44d533cbf88726e/8ff13/decoder.png" style="width:30%">
 </p>
 
 The output probabilities predict the next token in the output sentence. How? In essence, we assign a probability to each word in the French language and we simply keep the one with the highest score.
