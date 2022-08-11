@@ -1,6 +1,6 @@
 # Transformers explained
 
-This is a short explanation to how transformers work. 
+This is a short explanation on transformers. 
 
 ## Background
 Transformers was introduced in [Attention is all you need](https://arxiv.org/abs/1706.03762) back in 2017 as an alternative to Recurrent Neural Networks (RNN’s).RNN's treat sequences sequentially to keep the order of the sentence in place. To satisfy that design, each RNN component (layer) needs the previous (hidden) output. As such, stacked LSTM computations were performed sequentially. This is where transformers differ. The fundamental building block of a transformer is self-attention. Transformers feed the entire input sequence at once.
